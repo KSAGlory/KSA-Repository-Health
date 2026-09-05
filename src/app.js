@@ -24,12 +24,12 @@ const elements = {
   scoreRating: document.querySelector("#score-rating"),
   scoreSummary: document.querySelector("#score-summary"),
   scoreProgress: document.querySelector("#score-progress"),
-  scoreProgressFill: document.querySelector("#score-progress-fill"),
   detectedCount: document.querySelector("#detected-count"),
   recommendationCount: document.querySelector("#recommendation-count"),
   requestCount: document.querySelector("#request-count"),
   recommendationBadge: document.querySelector("#recommendation-badge"),
   recommendationList: document.querySelector("#recommendation-list"),
+  analysisGrid: document.querySelector(".analysis-grid"),
   categoryList: document.querySelector("#category-list"),
   strengthList: document.querySelector("#strength-list"),
   incompleteNotice: document.querySelector("#incomplete-notice"),
@@ -44,9 +44,12 @@ const elements = {
   themeButton: document.querySelector("#theme-button")
 };
 
-const client = new GitHubApiClient();
+let client = null;
 let activeRequest = null;
 let explicitTheme = null;
+const appearanceQuery = typeof window.matchMedia === "function"
+  ? window.matchMedia("(prefers-color-scheme: dark)")
+  : null;
 
 function showOnly(activeElement) {
   [
@@ -122,6 +125,7 @@ function appendRecommendation(recommendation, index) {
 function renderRecommendations(recommendations) {
   elements.recommendationList.replaceChildren();
   elements.recommendationBadge.textContent = String(recommendations.length);
+  elements.analysisGrid.classList.toggle("no-recommendations", recommendations.length === 0);
 
   if (recommendations.length === 0) {
     const empty = document.createElement("p");
@@ -134,7 +138,7 @@ function renderRecommendations(recommendations) {
   recommendations.forEach(appendRecommendation);
 }
 
-function renderCategories(categories) {
+function renderCategories(categories, checks) {
   elements.categoryList.replaceChildren();
   categories.forEach((category) => {
     const item = document.createElement("div");
@@ -155,7 +159,25 @@ function renderCategories(categories) {
       ? `${Math.round((category.points / category.maxPoints) * 100)}%`
       : "0%";
     track.append(fill);
-    item.append(heading, track);
+
+    const checkList = document.createElement("ul");
+    checkList.className = "category-check-list";
+    checks
+      .filter((check) => check.category === category.id)
+      .forEach((check) => {
+        const checkItem = document.createElement("li");
+        checkItem.dataset.state = check.state;
+        const checkLabel = document.createElement("span");
+        checkLabel.textContent = check.label;
+        const checkScore = document.createElement("strong");
+        checkScore.textContent = check.state === "unavailable"
+          ? "Unavailable"
+          : `${check.points} / ${check.maxPoints}`;
+        checkItem.append(checkLabel, checkScore);
+        checkList.append(checkItem);
+      });
+
+    item.append(heading, track, checkList);
     elements.categoryList.append(item);
   });
 }
@@ -197,11 +219,11 @@ function displayRepository(reference, result) {
   elements.scoreSummary.textContent = analysis.summary;
   elements.scoreProgress.hidden = !analysis.isComplete;
   if (analysis.isComplete) {
-    elements.scoreProgress.setAttribute("aria-valuenow", String(analysis.score));
-    elements.scoreProgressFill.style.width = `${analysis.score}%`;
+    elements.scoreProgress.value = analysis.score;
+    elements.scoreProgress.textContent = String(analysis.score);
   } else {
-    elements.scoreProgress.removeAttribute("aria-valuenow");
-    elements.scoreProgressFill.style.width = "0%";
+    elements.scoreProgress.value = 0;
+    elements.scoreProgress.textContent = "0";
   }
   elements.detectedCount.textContent = String(analysis.detectedEssentials);
   elements.recommendationCount.textContent = String(analysis.recommendations.length);
@@ -216,7 +238,7 @@ function displayRepository(reference, result) {
     ? ""
     : `${analysis.unavailableChecks.join(", ")} could not be verified. Try again later for a complete score.`;
   renderRecommendations(analysis.recommendations);
-  renderCategories(analysis.categories);
+  renderCategories(analysis.categories, analysis.checks);
   renderStrengths(analysis.strengths);
   showOnly(elements.connectionResult);
   elements.connectionResult.focus();
@@ -228,7 +250,11 @@ function displayRequestError(error) {
   elements.rateLimitReset.textContent = "";
 
   if (error.code === "rate_limited" && error.rateLimit?.resetAt) {
-    elements.rateLimitReset.textContent = `GitHub expects to reset the allowance at ${formatDate(error.rateLimit.resetAt)}.`;
+    elements.rateLimitReset.textContent = `GitHub expects to reset the allowance at ${formatDate(error.rateLimit.resetAt)}. This public allowance may be shared by people on the same network.`;
+    elements.rateLimitReset.hidden = false;
+  } else if (error.code === "rate_limited" && error.rateLimit?.retryAfterSeconds) {
+    const waitMinutes = Math.max(1, Math.ceil(error.rateLimit.retryAfterSeconds / 60));
+    elements.rateLimitReset.textContent = `Try again in about ${waitMinutes} minute${waitMinutes === 1 ? "" : "s"}. This public allowance may be shared by people on the same network.`;
     elements.rateLimitReset.hidden = false;
   }
 
@@ -236,6 +262,14 @@ function displayRequestError(error) {
 }
 
 async function checkRepository(reference) {
+  if (navigator.onLine === false) {
+    displayRequestError(new GitHubApiError(
+      "You appear to be offline. Reconnect to the internet and try again.",
+      { code: "offline" }
+    ));
+    return;
+  }
+
   activeRequest?.abort();
   const requestController = new AbortController();
   activeRequest = requestController;
@@ -275,7 +309,7 @@ function applyTheme(theme) {
 
   const isDark = theme
     ? theme === "dark"
-    : window.matchMedia("(prefers-color-scheme: dark)").matches;
+    : appearanceQuery?.matches === true;
   elements.themeButton.setAttribute("aria-pressed", String(isDark));
   elements.themeButton.setAttribute("aria-label", isDark ? "Use light appearance" : "Use dark appearance");
 }
@@ -303,13 +337,36 @@ elements.tryAgainButton.addEventListener("click", () => elements.form.requestSub
 elements.themeButton.addEventListener("click", () => {
   const currentlyDark = explicitTheme
     ? explicitTheme === "dark"
-    : window.matchMedia("(prefers-color-scheme: dark)").matches;
+    : appearanceQuery?.matches === true;
   applyTheme(currentlyDark ? "light" : "dark");
 });
 
-window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+appearanceQuery?.addEventListener?.("change", () => {
   if (!explicitTheme) applyTheme(null);
 });
 
 applyTheme(null);
-showOnly(elements.readyPanel);
+try {
+  if (typeof globalThis.fetch !== "function" || typeof globalThis.AbortController !== "function" || typeof globalThis.URL !== "function") {
+    throw new TypeError("Required browser features are unavailable.");
+  }
+  client = new GitHubApiClient();
+  showOnly(elements.readyPanel);
+} catch {
+  elements.input.disabled = true;
+  elements.form.querySelector("button[type='submit']").disabled = true;
+  displayRequestError(new GitHubApiError(
+    "This browser does not support the features required for repository analysis. Update your browser and try again.",
+    { code: "unsupported_browser" }
+  ));
+}
+
+window.addEventListener("offline", () => {
+  if (!activeRequest) return;
+  activeRequest.abort();
+  activeRequest = null;
+  displayRequestError(new GitHubApiError(
+    "The connection was lost. Reconnect to the internet and try again.",
+    { code: "offline" }
+  ));
+});

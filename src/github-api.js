@@ -223,7 +223,15 @@ export class GitHubApiClient {
         throw publicErrorFor(response, rateLimit);
       }
 
-      const data = await response.json();
+      let data;
+      try {
+        data = await response.json();
+      } catch (error) {
+        throw new GitHubApiError(
+          "GitHub returned an unexpected response. Please try again later.",
+          { code: "invalid_response", status: response.status, rateLimit, cause: error }
+        );
+      }
       return Object.freeze({ data, rateLimit, notFound: false });
     } catch (error) {
       if (error instanceof GitHubApiError) throw error;

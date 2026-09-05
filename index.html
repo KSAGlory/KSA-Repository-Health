@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -6,7 +6,7 @@
     <meta name="description" content="Review the public-facing readiness of a GitHub repository through clear, read-only checks.">
     <meta name="referrer" content="no-referrer">
     <meta name="color-scheme" content="light dark">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://api.github.com; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; upgrade-insecure-requests">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://api.github.com; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
     <title>KSA Repository Health</title>
     <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
     <link rel="stylesheet" href="src/styles.css">
@@ -89,7 +89,7 @@
           <header class="result-heading">
             <div>
               <p class="success-status" id="report-status"><span aria-hidden="true"></span><span id="report-status-text">Review complete</span></p>
-              <h2 id="connection-title"></h2>
+              <h2 id="connection-title">Repository report</h2>
               <p id="connection-description"></p>
             </div>
             <button class="secondary-button" id="new-review-button" type="button">
@@ -105,11 +105,9 @@
                 <strong id="score-value">0</strong>
                 <span id="score-total">/ 100</span>
               </div>
-              <h3 id="score-rating"></h3>
+              <h3 id="score-rating">Repository readiness result</h3>
               <p id="score-summary"></p>
-              <div class="score-progress" id="score-progress" role="progressbar" aria-label="Repository readiness score" aria-valuemin="0" aria-valuemax="100">
-                <span id="score-progress-fill"></span>
-              </div>
+              <progress class="score-progress" id="score-progress" aria-label="Repository readiness score" max="100" value="0">0</progress>
               <dl class="score-facts">
                 <div><dt>Essentials detected</dt><dd id="detected-count"></dd></div>
                 <div><dt>Recommendations</dt><dd id="recommendation-count"></dd></div>
@@ -158,7 +156,7 @@
               <div class="recommendation-list" id="recommendation-list"></div>
             </section>
 
-            <section class="report-card" aria-labelledby="categories-title">
+            <section class="report-card category-card" aria-labelledby="categories-title">
               <div class="card-heading"><div><p class="eyebrow">SCORE DETAILS</p><h3 id="categories-title">Category breakdown</h3></div></div>
               <div class="category-list" id="category-list"></div>
             </section>

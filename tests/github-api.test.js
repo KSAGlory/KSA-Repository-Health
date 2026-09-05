@@ -119,6 +119,28 @@ test("returns rate-limit details for an exhausted request", async () => {
   );
 });
 
+test("reads Retry-After for a temporary rate limit", async () => {
+  const client = new GitHubApiClient({
+    fetchImpl: async () => new Response("{}", {
+      status: 429,
+      headers: {
+        "x-ratelimit-limit": "60",
+        "x-ratelimit-remaining": "12",
+        "retry-after": "120"
+      }
+    })
+  });
+
+  await assert.rejects(
+    () => client.getRepository(reference),
+    (error) => (
+      error instanceof GitHubApiError &&
+      error.code === "rate_limited" &&
+      error.rateLimit.retryAfterSeconds === 120
+    )
+  );
+});
+
 test("rejects a response that claims the repository is private", async () => {
   const client = new GitHubApiClient({
     fetchImpl: async () => new Response(
@@ -147,6 +169,56 @@ test("does not expose a raw network failure", async () => {
       error.code === "network_error" &&
       !error.message.includes("sensitive transport detail")
     )
+  );
+});
+
+test("reports malformed JSON as an invalid GitHub response", async () => {
+  const client = new GitHubApiClient({
+    fetchImpl: async () => new Response("not-json", {
+      status: 200,
+      headers: { "content-type": "application/json" }
+    })
+  });
+
+  await assert.rejects(
+    () => client.getRepository(reference),
+    (error) => error instanceof GitHubApiError && error.code === "invalid_response"
+  );
+});
+
+test("reports a request timeout without exposing the transport error", async () => {
+  const client = new GitHubApiClient({
+    timeoutMs: 5,
+    fetchImpl: async (_url, options) => new Promise((_resolve, reject) => {
+      options.signal.addEventListener("abort", () => reject(new Error("raw timeout")), { once: true });
+    })
+  });
+
+  await assert.rejects(
+    () => client.getRepository(reference),
+    (error) => (
+      error instanceof GitHubApiError &&
+      error.code === "timeout" &&
+      !error.message.includes("raw timeout")
+    )
+  );
+});
+
+test("cancels a request when the caller aborts it", async () => {
+  const controller = new AbortController();
+  const client = new GitHubApiClient({
+    fetchImpl: async (_url, options) => new Promise((_resolve, reject) => {
+      const rejectCancellation = () => reject(new Error("cancelled transport"));
+      if (options.signal.aborted) rejectCancellation();
+      else options.signal.addEventListener("abort", rejectCancellation, { once: true });
+    })
+  });
+
+  const request = client.getRepository(reference, { signal: controller.signal });
+  controller.abort();
+  await assert.rejects(
+    () => request,
+    (error) => error instanceof GitHubApiError && error.code === "cancelled"
   );
 });
 

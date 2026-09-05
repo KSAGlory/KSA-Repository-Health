@@ -87,9 +87,10 @@ Implements the approved pastel interface system with light, dark, desktop, mobil
 | `npm run dev` | Start the local development server |
 | `npm test` | Run the Node.js test suite |
 | `npm run check` | Validate JavaScript syntax and run all tests |
+| `npm run test:browser` | Run the primary workflow in Chromium, Firefox, and WebKit |
 | `npm run build` | Prepare the static production files in `dist` |
 
-The application has no production or development package dependencies at this stage. The scripts use Node.js built-in modules.
+The application has no production package dependencies. Playwright is pinned as a development-only dependency for reproducible browser compatibility tests. The development server and build scripts use Node.js built-in modules.
 
 ## Current boundary
 

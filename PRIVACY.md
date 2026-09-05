@@ -4,13 +4,13 @@
 
 KSA Repository Health is in development and the public application has not been deployed. This document defines the privacy boundary required for the first public release.
 
-## Information the application will use
+## Information the application uses
 
-The user will provide a public GitHub repository URL or an `owner/repository` value. The browser will send the normalized repository reference directly to the official GitHub REST API to retrieve the public information required for the report.
+The user provides a public GitHub repository URL or an `owner/repository` value. The browser sends the normalized repository reference directly to the official GitHub REST API to retrieve the public information required for the report.
 
-## Information KSA Repository Health will not collect
+## Information KSA Repository Health does not collect
 
-The first release will not collect or request:
+The application does not collect or request:
 
 - Names or account profiles
 - Email addresses
@@ -23,15 +23,15 @@ The first release will not collect or request:
 
 ## Storage
 
-KSA Repository Health will not operate an application backend or database. Repository references and results will remain in browser memory for the current page session and will not be intentionally stored by the application.
+KSA Repository Health does not operate an application backend or database. Repository references and results remain in browser memory for the current page session and are not intentionally stored by the application.
 
 ## Cookies and tracking
 
-The first release will not use cookies, analytics, advertising, tracking pixels, or session-recording services.
+The application does not use cookies, analytics, advertising, tracking pixels, or session-recording services.
 
 ## External services
 
-The published application will use:
+When published, the application uses:
 
 - GitHub Pages to deliver the static website
 - The GitHub REST API to retrieve public repository information

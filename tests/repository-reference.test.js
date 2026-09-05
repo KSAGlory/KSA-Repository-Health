@@ -38,6 +38,10 @@ const invalidReferences = [
   "https://github.com/KSAGlory/repository?tab=readme",
   "https://github.com//KSAGlory/repository",
   "https://github.com/KSAGlory%2Frepository",
+  "//github.com/KSAGlory/repository",
+  "C:\\Users\\owner\\repository",
+  "owner/<script>alert(1)</script>",
+  "owner/repository%2Fissues",
   "-invalid/repository",
   "owner-/repository",
   "owner/repository name"

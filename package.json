@@ -7,12 +7,16 @@
   "scripts": {
     "dev": "node scripts/serve.mjs",
     "test": "node --test",
-    "check": "node --check src/repository-reference.js && node --check src/github-api.js && node --check src/app.js && node --test",
+    "test:browser": "playwright test",
+    "check": "node --check src/repository-reference.js && node --check src/github-api.js && node --check src/health-analysis.js && node --check src/app.js && node --test",
     "build": "node scripts/build.mjs"
   },
   "engines": {
     "node": ">=22"
   },
   "license": "MIT",
-  "author": "KSAGlory"
+  "author": "KSAGlory",
+  "devDependencies": {
+    "@playwright/test": "1.63.0"
+  }
 }

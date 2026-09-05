@@ -2,7 +2,7 @@
 
 ## Before requesting help
 
-Please review the project status and documentation in the [README](README.md). KSA Repository Health is currently in development, so the public application and user support workflow are not available yet.
+Please review the project status and documentation in the [README](README.md). KSA Repository Health is currently in development and has not been publicly deployed. Questions about the development preview are welcome through the channels below.
 
 ## Product questions and support
 

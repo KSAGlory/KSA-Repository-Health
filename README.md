@@ -2,7 +2,7 @@
 
 Review the public-facing readiness of a GitHub repository through clear, read-only checks.
 
-> **Project status:** In active development. Repository analysis, scoring, and prioritized guidance are implemented. Quality review and public deployment remain in progress.
+> **Project status:** In active development. Repository analysis, scoring, prioritized guidance, and the quality review are complete. Public deployment remains in progress.
 
 ## Purpose
 
@@ -44,12 +44,26 @@ KSA Repository Health is designed as a static, read-only GitHub Pages applicatio
 
 See [Privacy](PRIVACY.md) and [Security](SECURITY.md) for the complete boundaries.
 
-## Planned technology
+## Technology
 
 - Semantic HTML, modern CSS, and JavaScript
 - GitHub REST API for public repository data
 - GitHub Pages for static hosting
 - Automated accessibility, security, and quality checks
+
+## Local development
+
+Node.js 22 or later is required.
+
+```text
+npm install
+npm run dev
+npm run check
+npm run test:browser
+npm run build
+```
+
+The application has no production dependencies. Playwright is used only for development-time browser testing.
 
 ## Development roadmap
 
@@ -58,13 +72,14 @@ See [Privacy](PRIVACY.md) and [Security](SECURITY.md) for the complete boundarie
 - [x] Public repository foundation
 - [x] Application foundation and safe API client
 - [x] Repository analysis and scoring
-- [ ] Accessibility, security, and browser validation
+- [x] Accessibility, security, and browser validation
 - [ ] GitHub Pages publication
 
 ## Project documentation
 
 - [Repository Readiness Method](docs/METHOD.md)
 - [Technical Architecture](docs/ARCHITECTURE.md)
+- [Quality Review](docs/QUALITY.md)
 - [Privacy](PRIVACY.md)
 - [Security](SECURITY.md)
 - [Support](SUPPORT.md)

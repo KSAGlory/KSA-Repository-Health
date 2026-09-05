@@ -4,7 +4,7 @@ Thank you for your interest in KSA Repository Health.
 
 ## Current stage
 
-The project is in its foundation stage. The product scope, security boundaries, and visual direction are established, while the public application is not implemented yet.
+The application, repository analysis, and automated quality checks are implemented. Public deployment remains in progress.
 
 Before beginning substantial work, open a focused issue and wait for confirmation that the proposal fits the approved scope. This helps prevent duplicated effort and protects the application's privacy and read-only guarantees.
 
@@ -29,12 +29,13 @@ Before beginning substantial work, open a focused issue and wait for confirmatio
 
 ## Development setup
 
-KSA Repository Health has no production dependencies. Node.js 22 or later is required for the local development and validation scripts.
+KSA Repository Health has no production dependencies. Node.js 22 or later is required. Playwright is a development-only dependency used for browser compatibility testing.
 
 ```text
 npm run dev
 npm test
 npm run check
+npm run test:browser
 npm run build
 ```
 
