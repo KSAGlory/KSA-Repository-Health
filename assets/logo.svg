@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title description">
+  <title id="title">KSA Repository Health logo</title>
+  <desc id="description">A repository window with a health pulse.</desc>
+  <rect width="64" height="64" rx="17" fill="#dff1ea"/>
+  <path d="M19 17h19a7 7 0 0 1 7 7v17a7 7 0 0 1-7 7H26a7 7 0 0 1-7-7V17Z" fill="#ffffff" stroke="#347565" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M25 34h5l3-7 5 13 3-6h5" fill="none" stroke="#347565" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M19 24h26" fill="none" stroke="#347565" stroke-width="4"/>
+  <circle cx="25" cy="20.5" r="1.5" fill="#347565"/>
+</svg>

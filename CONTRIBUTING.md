@@ -29,7 +29,17 @@ Before beginning substantial work, open a focused issue and wait for confirmatio
 
 ## Development setup
 
-Development commands will be documented when the application foundation is added. Until then, documentation changes can be reviewed directly in GitHub's Markdown preview.
+KSA Repository Health has no production dependencies. Node.js 22 or later is required for the local development and validation scripts.
+
+```text
+npm run dev
+npm test
+npm run check
+npm run build
+```
+
+The development server listens on `127.0.0.1` and uses port `4173` by default. Set `KSA_REPOSITORY_HEALTH_PORT` when a different local port is required.
+
 
 ## Conduct
 

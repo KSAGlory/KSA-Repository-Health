@@ -2,7 +2,7 @@
 
 Review the public-facing readiness of a GitHub repository through clear, read-only checks.
 
-> **Project status:** In active development. The product scope and interface direction are approved. The public application is not available yet.
+> **Project status:** In active development. The responsive application foundation and read-only GitHub API connection are implemented. Repository analysis and scoring are in development, and the public application is not available yet.
 
 ## Purpose
 
@@ -54,7 +54,7 @@ See [Privacy](PRIVACY.md) and [Security](SECURITY.md) for the complete boundarie
 - [x] Product and security specification
 - [x] Responsive light and dark interface direction
 - [x] Public repository foundation
-- [ ] Application foundation and safe API client
+- [x] Application foundation and safe API client
 - [ ] Repository analysis and scoring
 - [ ] Accessibility, security, and browser validation
 - [ ] GitHub Pages publication
@@ -62,6 +62,7 @@ See [Privacy](PRIVACY.md) and [Security](SECURITY.md) for the complete boundarie
 ## Project documentation
 
 - [Repository Readiness Method](docs/METHOD.md)
+- [Technical Architecture](docs/ARCHITECTURE.md)
 - [Privacy](PRIVACY.md)
 - [Security](SECURITY.md)
 - [Support](SUPPORT.md)
