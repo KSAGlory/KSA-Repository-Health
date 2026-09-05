@@ -19,6 +19,39 @@ The application awards points only when the required GitHub API evidence is avai
 | Release readiness | 15 | A published release and useful release metadata are available |
 | **Total** | **100** | Transparent sum of all checks |
 
+## Point allocation
+
+### Project documentation: 30 points
+
+- README: 12 points
+- Repository description: 8 points
+- Project website: 4 points
+- Repository topics: 6 points for three or more topics, 3 points for one or two topics
+
+### Contribution readiness: 20 points
+
+- Contributing guide: 5 points
+- Code of conduct: 5 points
+- Issue template or form: 5 points
+- Pull request template: 5 points
+
+### Security and licensing: 20 points
+
+- Security policy: 10 points
+- License detected by GitHub or in the repository: 10 points
+
+### Maintenance: 15 points
+
+- Repository is not archived: 5 points
+- Repository is not disabled: 5 points
+- Latest push was within 365 days: 5 points
+- Latest push was more than 365 days but no more than 730 days ago: 3 points
+
+### Release readiness: 15 points
+
+- At least one published, non-draft release: 10 points
+- The latest published release has a title or release notes: 5 points
+
 ## Result labels
 
 - **90 to 100:** Excellent foundation
@@ -41,7 +74,7 @@ Recommendations are ordered by practical impact. Security reporting, project doc
 
 ## Data source
 
-The first release will use documented, read-only endpoints from the official [GitHub REST API](https://docs.github.com/en/rest). It will not request an access token or perform write operations.
+The application uses documented, read-only endpoints from the official [GitHub REST API](https://docs.github.com/en/rest). A normal review uses no more than six requests. It does not request an access token or perform write operations.
 
 ## Author and community
 

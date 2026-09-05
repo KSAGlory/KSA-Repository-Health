@@ -85,10 +85,10 @@
           <p>Retrieving public repository information.</p>
         </section>
 
-        <section class="connection-result" id="connection-result" aria-labelledby="connection-title" hidden>
+        <section class="connection-result" id="connection-result" aria-labelledby="connection-title" tabindex="-1" hidden>
           <header class="result-heading">
             <div>
-              <p class="success-status"><span aria-hidden="true"></span>Repository connected</p>
+              <p class="success-status" id="report-status"><span aria-hidden="true"></span><span id="report-status-text">Review complete</span></p>
               <h2 id="connection-title"></h2>
               <p id="connection-description"></p>
             </div>
@@ -98,19 +98,28 @@
             </button>
           </header>
 
-          <div class="connection-card">
-            <div class="connection-summary">
-              <span class="connection-mark" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="m8 12 3 3 5-6"/><circle cx="12" cy="12" r="9"/></svg>
-              </span>
-              <div>
-                <p class="eyebrow">PUBLIC DATA AVAILABLE</p>
-                <h3>The repository is ready for analysis.</h3>
-                <p>The complete readiness score and recommendations will be added in the next development stage.</p>
+          <div class="report-overview">
+            <article class="score-card" aria-labelledby="score-rating">
+              <p class="eyebrow">READINESS RESULT</p>
+              <div class="score-line">
+                <strong id="score-value">0</strong>
+                <span id="score-total">/ 100</span>
               </div>
-            </div>
+              <h3 id="score-rating"></h3>
+              <p id="score-summary"></p>
+              <div class="score-progress" id="score-progress" role="progressbar" aria-label="Repository readiness score" aria-valuemin="0" aria-valuemax="100">
+                <span id="score-progress-fill"></span>
+              </div>
+              <dl class="score-facts">
+                <div><dt>Essentials detected</dt><dd id="detected-count"></dd></div>
+                <div><dt>Recommendations</dt><dd id="recommendation-count"></dd></div>
+                <div><dt>API requests</dt><dd id="request-count"></dd></div>
+              </dl>
+            </article>
 
-            <dl class="repository-details">
+            <article class="repository-card" aria-labelledby="repository-details-title">
+              <h3 id="repository-details-title">Repository details</h3>
+              <dl class="repository-details">
               <div>
                 <dt>Visibility</dt>
                 <dd id="detail-visibility"></dd>
@@ -127,12 +136,37 @@
                 <dt>API allowance</dt>
                 <dd id="detail-rate-limit"></dd>
               </div>
-            </dl>
+              </dl>
+              <a class="secondary-button repository-link" id="repository-link" href="https://github.com" target="_blank" rel="noopener noreferrer">
+                Open repository
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 5h5v5M10 14 19 5M19 13v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></svg>
+              </a>
+            </article>
+          </div>
 
-            <a class="secondary-button repository-link" id="repository-link" href="https://github.com" target="_blank" rel="noopener noreferrer">
-              Open repository
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 5h5v5M10 14 19 5M19 13v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></svg>
-            </a>
+          <aside class="incomplete-notice" id="incomplete-notice" aria-labelledby="incomplete-title" hidden>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8v5M12 17h.01"/><path d="M10.3 3.7 2.6 17a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 3.7a2 2 0 0 0-3.4 0Z"/></svg>
+            <div><h3 id="incomplete-title">Some checks are unavailable</h3><p id="incomplete-description"></p></div>
+          </aside>
+
+          <div class="analysis-grid">
+            <section class="report-card recommendations-card" aria-labelledby="recommendations-title">
+              <div class="card-heading">
+                <div><p class="eyebrow">NEXT ACTIONS</p><h3 id="recommendations-title">Prioritized recommendations</h3></div>
+                <span class="count-badge" id="recommendation-badge"></span>
+              </div>
+              <div class="recommendation-list" id="recommendation-list"></div>
+            </section>
+
+            <section class="report-card" aria-labelledby="categories-title">
+              <div class="card-heading"><div><p class="eyebrow">SCORE DETAILS</p><h3 id="categories-title">Category breakdown</h3></div></div>
+              <div class="category-list" id="category-list"></div>
+            </section>
+
+            <section class="report-card strengths-card" aria-labelledby="strengths-title">
+              <div class="card-heading"><div><p class="eyebrow">DETECTED</p><h3 id="strengths-title">Repository strengths</h3></div></div>
+              <ul class="strength-list" id="strength-list"></ul>
+            </section>
           </div>
         </section>
 

@@ -2,15 +2,15 @@
 
 Review the public-facing readiness of a GitHub repository through clear, read-only checks.
 
-> **Project status:** In active development. The responsive application foundation and read-only GitHub API connection are implemented. Repository analysis and scoring are in development, and the public application is not available yet.
+> **Project status:** In active development. Repository analysis, scoring, and prioritized guidance are implemented. Quality review and public deployment remain in progress.
 
 ## Purpose
 
 KSA Repository Health helps developers identify repository essentials that may be missing before they share a project with users, contributors, employers, or clients.
 
-The application will review public GitHub information and explain each result in practical language. Its findings are advisory and do not replace source-code review, security testing, or legal guidance.
+The application reviews public GitHub information and explains each result in practical language. Its findings are advisory and do not replace source-code review, security testing, or legal guidance.
 
-## Planned checks
+## Repository checks
 
 - Project documentation, including the README, description, website, and topics
 - Contribution guidance, including contributing instructions and community templates
@@ -21,11 +21,13 @@ The application will review public GitHub information and explain each result in
 
 The scoring method is documented in [Repository Readiness Method](docs/METHOD.md).
 
-## How it will work
+## How it works
 
 1. Enter a public GitHub repository URL or `owner/repository` value.
 2. KSA Repository Health requests the required public information from the official GitHub REST API.
-3. Review the readiness score, detected strengths, and prioritized recommendations.
+3. Review the readiness score, category details, detected strengths, and prioritized recommendations.
+
+If GitHub cannot provide required evidence, the application marks the report incomplete instead of treating unknown checks as failures. A normal review uses no more than six read-only API requests.
 
 The first release will not require GitHub sign-in or an access token. It will not edit repositories, inspect private repositories, execute source code, or store search history.
 
@@ -55,7 +57,7 @@ See [Privacy](PRIVACY.md) and [Security](SECURITY.md) for the complete boundarie
 - [x] Responsive light and dark interface direction
 - [x] Public repository foundation
 - [x] Application foundation and safe API client
-- [ ] Repository analysis and scoring
+- [x] Repository analysis and scoring
 - [ ] Accessibility, security, and browser validation
 - [ ] GitHub Pages publication
 
@@ -71,7 +73,7 @@ See [Privacy](PRIVACY.md) and [Security](SECURITY.md) for the complete boundarie
 
 ## Contributing
 
-The application is currently in its foundation stage. Please read [CONTRIBUTING.md](CONTRIBUTING.md) before proposing a change. Product ideas and clearly described accessibility improvements are welcome through GitHub Issues.
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) before proposing a change. Product ideas and clearly described accessibility improvements are welcome through GitHub Issues.
 
 ## License
 

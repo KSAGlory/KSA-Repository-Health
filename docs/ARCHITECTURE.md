@@ -16,7 +16,10 @@ Repository reference validation
 Read-only GitHub API client
     |
     v
-Normalized public repository data
+Normalized public evidence
+    |
+    v
+Deterministic readiness analysis
     |
     v
 Accessible interface states
@@ -41,9 +44,15 @@ Provides the read-only GitHub REST API boundary. The client:
 - Converts network and API failures into safe user-facing errors
 - Does not return raw API error responses to the interface
 
+One review requests the repository record, community profile, latest release, and directory listings for the repository root, `.github`, and `docs`. The maximum is six requests. If an auxiliary request fails, later optional requests are skipped to preserve the user's public API allowance.
+
+### `src/health-analysis.js`
+
+Applies the documented 100-point method to normalized evidence. The analyzer is deterministic and has no network or interface access. It distinguishes passed, partial, missing, and unavailable checks. If required evidence is unavailable, it returns an incomplete report without calculating a potentially misleading score.
+
 ### `src/app.js`
 
-Coordinates form validation, request cancellation, loading, success, error, reset, and theme behavior. API-provided values are assigned through `textContent`. Repository links are constructed from the validated user reference rather than an API-provided URL.
+Coordinates form validation, request cancellation, loading, report, error, reset, and theme behavior. API-provided values are assigned through `textContent`. Repository links are constructed from the validated user reference rather than an API-provided URL. Recommendation links come from a fixed internal list of official GitHub guidance.
 
 ### `src/styles.css`
 
@@ -54,12 +63,12 @@ Implements the approved pastel interface system with light, dark, desktop, mobil
 1. The user submits a repository reference.
 2. The reference is validated before any request begins.
 3. An earlier unfinished request is cancelled.
-4. The API client requests the public repository endpoint.
-5. The response is normalized into the limited fields needed by the interface.
-6. The interface renders text safely and displays the remaining API allowance when available.
-7. A failure is mapped to a specific recovery message without exposing raw transport details.
-
-The application performs one API request during the foundation-stage connection check. The complete analysis will remain within the request budget defined in the public method and internal product specification.
+4. The API client retrieves up to six public evidence sources in a fixed sequence.
+5. Responses are normalized into the limited fields required by the analysis.
+6. The analyzer calculates the score, category totals, strengths, and ordered recommendations.
+7. The interface renders the report safely and displays the remaining API allowance when available.
+8. If required evidence cannot be retrieved, the interface presents an incomplete report and identifies unavailable checks.
+9. A core request failure is mapped to a specific recovery message without exposing raw transport details.
 
 ## Browser security
 
@@ -84,7 +93,7 @@ The application has no production or development package dependencies at this st
 
 ## Current boundary
 
-The application foundation retrieves and presents basic public repository information. Repository scoring, community-file checks, recommendations, and incomplete-report policy belong to the next approved development stage.
+The application reviews public repository presentation and maintenance evidence. It does not inspect source code, authenticate users, access private repositories, determine legal compliance, or perform security testing.
 
 ## Author and community
 

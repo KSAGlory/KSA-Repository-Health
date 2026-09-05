@@ -30,6 +30,9 @@ function repositoryPayload(overrides = {}) {
     topics: ["github-api"],
     has_issues: true,
     has_discussions: false,
+    homepage: "https://example.com",
+    fork: false,
+    license: { spdx_id: "MIT" },
     open_issues_count: 0,
     ...overrides
   };
@@ -145,4 +148,107 @@ test("does not expose a raw network failure", async () => {
       !error.message.includes("sensitive transport detail")
     )
   );
+});
+
+test("collects repository health evidence in no more than six requests", async () => {
+  const requestedPaths = [];
+  const fetchImpl = async (url) => {
+    requestedPaths.push(`${url.pathname}${url.search}`);
+    let data;
+
+    if (url.pathname.endsWith("/community/profile")) {
+      data = {
+        health_percentage: 100,
+        files: {
+          readme: { url: "https://example.com/readme" },
+          license: { url: "https://example.com/license" },
+          contributing: { url: "https://example.com/contributing" },
+          code_of_conduct: { url: "https://example.com/conduct" },
+          issue_template: { url: "https://example.com/issues" },
+          pull_request_template: { url: "https://example.com/pulls" },
+          security: { url: "https://example.com/security" }
+        }
+      };
+    } else if (url.pathname.endsWith("/releases")) {
+      data = [{
+        id: 10,
+        tag_name: "v1.0.0",
+        name: "First release",
+        body: "Release notes",
+        draft: false,
+        prerelease: false,
+        published_at: "2026-09-05T08:00:00Z"
+      }];
+    } else if (url.pathname.includes("/contents")) {
+      data = [{ name: "README.md", path: "README.md", type: "file" }];
+    } else {
+      data = repositoryPayload();
+    }
+
+    return new Response(JSON.stringify(data), {
+      status: 200,
+      headers: {
+        "content-type": "application/json",
+        "x-ratelimit-limit": "60",
+        "x-ratelimit-remaining": String(60 - requestedPaths.length)
+      }
+    });
+  };
+
+  const client = new GitHubApiClient({ fetchImpl });
+  const result = await client.getRepositoryHealthData(reference);
+
+  assert.equal(result.requestCount, 6);
+  assert.equal(requestedPaths.length, 6);
+  assert.deepEqual(result.sources, {
+    repository: "available",
+    community: "available",
+    releases: "available",
+    root: "available",
+    github: "available",
+    docs: "available"
+  });
+  assert.equal(result.communityProfile.files.security, true);
+  assert.equal(result.releases[0].tagName, "v1.0.0");
+  assert.equal(result.rateLimit.remaining, 54);
+});
+
+test("treats missing optional directories as resolved evidence", async () => {
+  const fetchImpl = async (url) => {
+    if (url.pathname.endsWith("/community/profile")) {
+      return new Response("{}", { status: 404 });
+    }
+    if (url.pathname.endsWith("/releases")) {
+      return new Response("[]", { status: 200 });
+    }
+    if (url.pathname.includes("/contents")) {
+      return new Response("{}", { status: 404 });
+    }
+    return new Response(JSON.stringify(repositoryPayload()), { status: 200 });
+  };
+
+  const result = await new GitHubApiClient({ fetchImpl }).getRepositoryHealthData(reference);
+  assert.equal(result.sources.community, "missing");
+  assert.equal(result.sources.root, "missing");
+  assert.equal(result.sources.github, "missing");
+  assert.equal(result.sources.docs, "missing");
+  assert.equal(result.failures.length, 0);
+});
+
+test("marks later evidence sources as skipped after an auxiliary failure", async () => {
+  let requestNumber = 0;
+  const fetchImpl = async () => {
+    requestNumber += 1;
+    if (requestNumber === 1) {
+      return new Response(JSON.stringify(repositoryPayload()), { status: 200 });
+    }
+    return new Response("{}", { status: 500 });
+  };
+
+  const result = await new GitHubApiClient({ fetchImpl }).getRepositoryHealthData(reference);
+  assert.equal(result.requestCount, 2);
+  assert.equal(result.sources.community, "error");
+  assert.equal(result.sources.releases, "skipped");
+  assert.equal(result.sources.docs, "skipped");
+  assert.equal(result.failures.length, 1);
 });
