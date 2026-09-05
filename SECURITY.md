@@ -2,7 +2,7 @@
 
 ## Project status
 
-KSA Repository Health is currently in development and has no public application release. Security reports concerning this repository and future preview builds are welcome.
+KSA Repository Health is publicly available as a static GitHub Pages application. Security reports concerning the repository or published service are welcome.
 
 ## Reporting a vulnerability
 
@@ -18,7 +18,7 @@ Include the following information when possible:
 
 Do not include access tokens, passwords, private keys, personal data, or unrelated confidential information. Please do not open a public GitHub issue for an undisclosed vulnerability.
 
-## Security boundaries for the first release
+## Security boundaries
 
 The application is required to:
 

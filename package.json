@@ -8,6 +8,7 @@
     "dev": "node scripts/serve.mjs",
     "test": "node --test",
     "test:browser": "playwright test",
+    "screenshots": "node scripts/capture-readme-screenshots.mjs",
     "check": "node --check src/repository-reference.js && node --check src/github-api.js && node --check src/health-analysis.js && node --check src/app.js && node --test",
     "build": "node scripts/build.mjs"
   },

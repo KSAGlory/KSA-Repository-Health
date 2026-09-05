@@ -4,7 +4,7 @@ Thank you for your interest in KSA Repository Health.
 
 ## Current stage
 
-The application, repository analysis, and automated quality checks are implemented. Public deployment remains in progress.
+The application, repository analysis, automated quality checks, and public deployment are complete. Proposed changes must preserve the documented product, privacy, security, and accessibility boundaries.
 
 Before beginning substantial work, open a focused issue and wait for confirmation that the proposal fits the approved scope. This helps prevent duplicated effort and protects the application's privacy and read-only guarantees.
 
@@ -37,10 +37,10 @@ npm test
 npm run check
 npm run test:browser
 npm run build
+npm run screenshots
 ```
 
 The development server listens on `127.0.0.1` and uses port `4173` by default. Set `KSA_REPOSITORY_HEALTH_PORT` when a different local port is required.
-
 
 ## Conduct
 

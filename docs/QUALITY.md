@@ -43,7 +43,7 @@ The local production profile received scores of 100 for Performance, Accessibili
 
 ## Scope
 
-The review confirms the implemented public repository workflow. It does not certify GitHub availability, repository content, application security, or legal compliance. The deployed GitHub Pages site will receive a final clean-session check during publication.
+The review confirms the implemented public repository workflow and the deployed GitHub Pages application. It does not certify GitHub availability, repository content, application security, or legal compliance.
 
 ## Author and community
 

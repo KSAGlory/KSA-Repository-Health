@@ -89,6 +89,7 @@ Implements the approved pastel interface system with light, dark, desktop, mobil
 | `npm run check` | Validate JavaScript syntax and run all tests |
 | `npm run test:browser` | Run the primary workflow in Chromium, Firefox, and WebKit |
 | `npm run build` | Prepare the static production files in `dist` |
+| `npm run screenshots` | Refresh the README images from an approved deployment |
 
 The application has no production package dependencies. Playwright is pinned as a development-only dependency for reproducible browser compatibility tests. The development server and build scripts use Node.js built-in modules.
 

@@ -2,7 +2,7 @@
 
 ## Current project status
 
-KSA Repository Health is in development and the public application has not been deployed. This document defines the privacy boundary required for the first public release.
+KSA Repository Health is publicly available as a static GitHub Pages application. This document defines the privacy boundary of the published service.
 
 ## Information the application uses
 
@@ -31,7 +31,7 @@ The application does not use cookies, analytics, advertising, tracking pixels, o
 
 ## External services
 
-When published, the application uses:
+The application uses:
 
 - GitHub Pages to deliver the static website
 - The GitHub REST API to retrieve public repository information

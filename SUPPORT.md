@@ -2,7 +2,7 @@
 
 ## Before requesting help
 
-Please review the project status and documentation in the [README](README.md). KSA Repository Health is currently in development and has not been publicly deployed. Questions about the development preview are welcome through the channels below.
+Please review the documentation in the [README](README.md) and confirm that the issue also occurs in the [published application](https://ksaglory.github.io/KSA-Repository-Health/) before requesting help.
 
 ## Product questions and support
 
