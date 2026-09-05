@@ -1,0 +1,64 @@
+name: Bug report
+description: Report a reproducible problem with KSA Repository Health
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting a problem. Do not include passwords, access tokens, private keys, or confidential repository information.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched the existing issues for the same problem.
+          required: true
+        - label: I am testing a public repository and have removed sensitive information.
+          required: true
+  - type: input
+    id: repository
+    attributes:
+      label: Public repository checked
+      description: Provide the public GitHub URL if it is safe to share.
+      placeholder: https://github.com/owner/repository
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Describe the behavior and why it appears incorrect.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: List the shortest sequence that reproduces the problem.
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and version
+      placeholder: Microsoft Edge 140
+    validations:
+      required: true
+  - type: input
+    id: system
+    attributes:
+      label: Operating system
+      placeholder: Windows 11
+    validations:
+      required: true
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Add screenshots or relevant details that do not contain sensitive information.

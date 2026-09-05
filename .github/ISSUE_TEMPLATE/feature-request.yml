@@ -1,0 +1,48 @@
+name: Feature request
+description: Propose a focused improvement to KSA Repository Health
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Explain the user problem first. Proposals must preserve the application's read-only and privacy-focused boundaries.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues for a similar proposal.
+          required: true
+        - label: This proposal does not require users to share passwords or personal access tokens.
+          required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+      description: Describe the difficulty from the user's perspective.
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired outcome
+      description: Describe what the user should be able to accomplish.
+    validations:
+      required: true
+  - type: textarea
+    id: approach
+    attributes:
+      label: Suggested approach
+      description: Optional implementation or interface ideas.
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Explain any existing workflow or workaround.
+  - type: textarea
+    id: accessibility
+    attributes:
+      label: Accessibility and privacy considerations
+      description: Note any effect on keyboard use, screen readers, visual clarity, or user data.
