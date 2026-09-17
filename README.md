@@ -108,5 +108,5 @@ This project is licensed under the [MIT License](LICENSE).
 ## Author and community
 
 - **Author:** KSAGlory
-- **GitHub:** https://github.com/KSAGlory
 - **Community:** [discord.gg/ksahub](https://discord.gg/ksahub)
+- **GitHub:** https://github.com/KSAGlory
