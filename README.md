@@ -109,4 +109,3 @@ This project is licensed under the [MIT License](LICENSE).
 
 - **Author:** KSAGlory
 - **Community:** [discord.gg/ksahub](https://discord.gg/ksahub)
-- **GitHub:** https://github.com/KSAGlory
